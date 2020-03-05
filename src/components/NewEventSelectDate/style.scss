@@ -1,0 +1,65 @@
+.eventDataPicker {
+  // Override datepicker style
+  .DayPicker {
+    $cell-size: 36px;
+    $main-blue: #3F51B5;
+
+    display: block;
+    border-bottom: 5px solid $main-blue;
+
+    .DayPicker-Caption {
+      display: block;
+      background: $main-blue;
+      padding: 15px;
+      color: #fff;
+    }
+
+    .DayPicker-NavBar {
+      span {
+        outline: none;
+      }
+    }
+
+    .DayPicker-Month {
+      display: block;
+      width: 100%;
+      margin: 0;
+    }
+
+    .DayPicker-Day{
+      outline: none;
+      width: $cell-size;
+      height: $cell-size;
+      line-height: $cell-size;
+      &--selected {
+        &:not(.DayPicker-Day--disabled),
+        &:not(.DayPicker-Day--outside){
+          background-color: $main-blue;
+        }
+      }
+    }
+
+    .DayPicker-Weekdays {
+      display: block;
+    }
+
+    .DayPicker-WeekdaysRow {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .DayPicker-Weekday {
+      width: $cell-size;
+      height: $cell-size;
+    }
+
+    .DayPicker-Week {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .DayPicker-Body {
+      display: block
+    }
+  }
+}

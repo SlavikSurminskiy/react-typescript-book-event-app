@@ -1,0 +1,50 @@
+.eventDataPicker .DayPicker {
+  display: block;
+  border-bottom: 5px solid #3f51b5;
+}
+.eventDataPicker .DayPicker .DayPicker-Caption {
+  display: block;
+  background: #3f51b5;
+  padding: 15px;
+  color: #fff;
+}
+.eventDataPicker .DayPicker .DayPicker-NavBar span {
+  outline: none;
+}
+.eventDataPicker .DayPicker .DayPicker-Month {
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+.eventDataPicker .DayPicker .DayPicker-Day {
+  outline: none;
+  width: 36px;
+  height: 36px;
+  line-height: 36px;
+}
+.eventDataPicker
+  .DayPicker
+  .DayPicker-Day--selected:not(.DayPicker-Day--disabled),
+.eventDataPicker
+  .DayPicker
+  .DayPicker-Day--selected:not(.DayPicker-Day--outside) {
+  background-color: #3f51b5;
+}
+.eventDataPicker .DayPicker .DayPicker-Weekdays {
+  display: block;
+}
+.eventDataPicker .DayPicker .DayPicker-WeekdaysRow {
+  display: flex;
+  justify-content: space-between;
+}
+.eventDataPicker .DayPicker .DayPicker-Weekday {
+  width: 36px;
+  height: 36px;
+}
+.eventDataPicker .DayPicker .DayPicker-Week {
+  display: flex;
+  justify-content: space-between;
+}
+.eventDataPicker .DayPicker .DayPicker-Body {
+  display: block;
+}
