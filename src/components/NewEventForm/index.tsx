@@ -90,7 +90,7 @@ const NewEventForm: React.FC<NewEventFormProps> = (props) => {
           <EventNote />
         </Grid>
         <Grid item className={classes.fullWidth}>
-          <TextField label="Notes" value={notes} multiline fullWidth onChange={notesChangeHandler} />
+          <TextField label="Notes (optional)" value={notes} multiline fullWidth onChange={notesChangeHandler} />
         </Grid>
       </Grid>
       <Grid container justify="flex-end">

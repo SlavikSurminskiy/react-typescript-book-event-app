@@ -8,7 +8,7 @@ import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 
 import NewEventForm from '../../components/NewEventForm';
-import { NewEventSelectDate } from '../../components/NewEventSelectDate';
+import NewEventSelectDate from '../../components/NewEventSelectDate';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

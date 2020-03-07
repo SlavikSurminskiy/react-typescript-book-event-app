@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { connect, ConnectedProps } from 'react-redux';
+
+import { RootState } from '../../store';
+import { EventDatesType } from '../../store/newEvent/types';
+import { addNewEventDates } from '../../store/newEvent/actions';
+
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Grid from '@material-ui/core/Grid';
@@ -12,10 +18,6 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import 'react-day-picker/lib/style.css';
 import './style.scss';
 
-interface INewEventSelectDate {
-  onBackClick: () => void
-  onSaveClick: () => void
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,18 +33,48 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const NewEventSelectDate: React.FC<INewEventSelectDate> = (props) => {
+const mapStateToProps = (state: RootState) => {
+  return { newEventDates: state.newEvent.dates }
+}
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    addNewEventDates: (d: EventDatesType) => dispatch(addNewEventDates(d)),
+  }
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
+
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type NewEventSelectDateProps = PropsFromRedux & {
+  onBackClick: () => void
+  onSaveClick: () => void
+}
+
+const NewEventSelectDate: React.FC<NewEventSelectDateProps> = (props) => {
   const classes = useStyles();
-  const [selectedDate, handleDateChange] = useState<Date[]>([new Date()]);
+  const [valid, setValid] = useState(false);
+  const { newEventDates } = props;
+
+  useEffect(() => {
+    validationForm(newEventDates);
+  }, [newEventDates])
+
+  const validationForm = (dates: EventDatesType) => {
+    setValid(prev => dates.length > 0);
+  }
 
   const handleDayClick = (day: Date, modifiers: DayModifiers) => {
+    let dates: EventDatesType = [];
     if (modifiers.selected) {
-      handleDateChange((selectedDays: Date[]) => {
-        return selectedDays.filter(d => !DateUtils.isSameDay(d, day))
-      })
+      dates = newEventDates.filter(d => !DateUtils.isSameDay(d, day))
+      props.addNewEventDates(dates)
     } else {
-      handleDateChange((selectedDays: Date[]) => [...selectedDays, day])
+      dates = [...newEventDates, day]
+      props.addNewEventDates(dates)
     }
+    validationForm(dates);
   }
 
   const backBtnHandler = () => {
@@ -58,7 +90,7 @@ export const NewEventSelectDate: React.FC<INewEventSelectDate> = (props) => {
       <div className="eventDataPicker">
         <DayPicker
           onDayClick={handleDayClick}
-          selectedDays={selectedDate}
+          selectedDays={newEventDates}
         />
       </div>
       <Grid container justify="space-between">
@@ -73,6 +105,7 @@ export const NewEventSelectDate: React.FC<INewEventSelectDate> = (props) => {
           Back
         </Button>
         <Button
+          disabled={!valid}
           onClick={saveBtnHandler}
           variant="contained"
           color="primary"
@@ -86,3 +119,5 @@ export const NewEventSelectDate: React.FC<INewEventSelectDate> = (props) => {
     </React.Fragment>
   );
 }
+
+export default connector(NewEventSelectDate);
