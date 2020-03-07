@@ -56,7 +56,8 @@ const NewEventForm: React.FC<NewEventFormProps> = (props) => {
 
   useEffect(() => {
     validationForm(title);
-  }, [title])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const validationForm = (str: string) => {
     setValid(prev => str.trim() !== '');

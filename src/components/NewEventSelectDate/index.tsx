@@ -59,7 +59,8 @@ const NewEventSelectDate: React.FC<NewEventSelectDateProps> = (props) => {
 
   useEffect(() => {
     validationForm(newEventDates);
-  }, [newEventDates])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const validationForm = (dates: EventDatesType) => {
     setValid(prev => dates.length > 0);
