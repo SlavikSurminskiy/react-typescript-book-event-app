@@ -9,6 +9,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 
 import NewEventForm from '../../components/NewEventForm';
 import NewEventSelectDate from '../../components/NewEventSelectDate';
+import NewEventCompletion from '../../components/NewEventСompletion';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,6 +33,8 @@ export const NewEventPage: React.FC = () => {
         return <NewEventForm onSaveClick={handleHext} />
       case 1:
         return <NewEventSelectDate onSaveClick={handleHext} onBackClick={handleBack} />
+      case 2:
+        return <NewEventCompletion onBackClick={handleBack} />
       default:
         return <h3>Unknown step</h3>
     }
