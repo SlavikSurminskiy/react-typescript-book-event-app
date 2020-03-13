@@ -5,13 +5,15 @@ import {
   SAVE_NEW_EVENT_BEGIN,
   SAVE_NEW_EVENT_SUCCESS,
   SAVE_NEW_EVENT_FAILURE,
-  EventStatusType,
   EventDatesType,
-  NewEventActions
+  NewEventActions,
+  AddNewEventResponse,
+  AddNewEventErrorResponse,
 } from './types';
 
-import axios from 'axios';
-import store from '../';
+import axios, { AxiosError } from 'axios';
+import { RootState } from './../index';
+import { ThunkAction } from 'redux-thunk';
 
 export function addNewEventTitle(title: string): NewEventActions {
   return {
@@ -43,13 +45,10 @@ export function addNewEventDates(dates: EventDatesType): NewEventActions {
 function saveNewEventBegin(): NewEventActions {
   return {
     type: SAVE_NEW_EVENT_BEGIN,
-    payload: {
-      isSending: true
-    }
   }
 }
 
-function saveNewEventSuccess(status: EventStatusType): NewEventActions {
+function saveNewEventSuccess(status: AddNewEventResponse): NewEventActions {
   return {
     type: SAVE_NEW_EVENT_SUCCESS,
     payload: {
@@ -58,7 +57,7 @@ function saveNewEventSuccess(status: EventStatusType): NewEventActions {
   }
 }
 
-function saveNewEventFailure(error: EventStatusType): NewEventActions {
+function saveNewEventFailure(error: AddNewEventErrorResponse): NewEventActions {
   return {
     type: SAVE_NEW_EVENT_FAILURE,
     payload: {
@@ -67,12 +66,12 @@ function saveNewEventFailure(error: EventStatusType): NewEventActions {
   }
 }
 
-export function saveNewEvent() {
-  return (dispatch: any) => {
+export function saveNewEvent(): ThunkAction<void, RootState, unknown, NewEventActions> {
+  return (dispatch, getState) => {
     dispatch(saveNewEventBegin());
-    const eventPostData = store.getState().newEvent;
+    const eventPostData = getState().newEvent;
     axios
-      .post<EventStatusType>('/api/createEvent', {
+      .post<AddNewEventResponse>('/api/createEvent', {
         newEvent: {
           title: eventPostData.title,
           notes: eventPostData.notes,
@@ -81,17 +80,14 @@ export function saveNewEvent() {
       })
       .then(res => {
         dispatch(saveNewEventSuccess({
-          isSending: false,
-          isSaved: true,
-          eventId: res.data.eventId,
+          _id: res.data._id,
           statusText: 'Event was saved',
         }));
       })
-      .catch(err => {
+      .catch((err: AxiosError) => {
         dispatch(saveNewEventFailure({
-          isSending: false,
-          isSaved: false,
-          statusText: err.response.data,
+          statusText: err.response!.statusText,
+          statusCode: err.response!.status,
         }));
       })
   }

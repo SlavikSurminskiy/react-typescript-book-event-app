@@ -7,17 +7,23 @@ import {
   SAVE_NEW_EVENT_FAILURE,
   EventType,
   NewEventActions,
-  EventStatusType
 } from './types';
 
-type InitialStateType = EventType & EventStatusType
+type InitialStateType = EventType & {
+  isSaved: boolean
+  isSending: boolean
+  statusText: string | null
+  statusCode: number | null
+}
 
 const initialState: InitialStateType = {
   title: '',
   notes: '',
   dates: [],
+  _id: '',
   isSaved: false,
   statusText: null,
+  statusCode: null,
   isSending: false
 }
 
@@ -47,22 +53,23 @@ export function newEventReducer(state = initialState, action: NewEventActions): 
     case SAVE_NEW_EVENT_BEGIN:
       return {
         ...state,
-        isSending: action.payload.isSending
+        isSending: true
       }
     case SAVE_NEW_EVENT_SUCCESS:
       return {
         ...state,
-        isSending: action.payload.status.isSending,
-        isSaved: action.payload.status.isSaved,
-        eventId: action.payload.status.eventId,
+        _id: action.payload.status._id,
+        isSending: false,
+        isSaved: true,
         statusText: action.payload.status.statusText,
       }
     case SAVE_NEW_EVENT_FAILURE:
       return {
         ...state,
-        isSending: action.payload.error.isSending,
-        isSaved: action.payload.error.isSaved,
+        isSending: false,
+        isSaved: false,
         statusText: action.payload.error.statusText,
+        statusCode: action.payload.error.statusCode,
       }
     default:
       return state

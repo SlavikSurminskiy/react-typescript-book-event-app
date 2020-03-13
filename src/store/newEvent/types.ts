@@ -13,16 +13,19 @@ export type EventType = {
   title: string
   notes: string
   dates: EventDatesType
-  _id?: string
+  _id: string
 }
 
 export type EventDatesType = Date[]
 
-export type EventStatusType = {
-  isSaved: boolean
-  statusText: string | null
-  isSending: boolean
-  eventId?: string
+export type AddNewEventResponse = {
+  statusText: string
+  _id: string
+}
+
+export type AddNewEventErrorResponse = {
+  statusText: string
+  statusCode: number
 }
 
 export interface AddNewEventTitleAction extends Action {
@@ -48,22 +51,19 @@ export interface AddNewEventDatesAction extends Action {
 
 export interface SaveNewEventBeginAction extends Action {
   type: typeof SAVE_NEW_EVENT_BEGIN
-  payload: {
-    isSending: boolean
-  }
 }
 
 export interface SaveNewEventSuccessAction extends Action {
   type: typeof SAVE_NEW_EVENT_SUCCESS
   payload: {
-    status: EventStatusType
+    status: AddNewEventResponse
   }
 }
 
 export interface SaveNewEventFailureAction extends Action {
   type: typeof SAVE_NEW_EVENT_FAILURE
   payload: {
-    error: EventStatusType
+    error: AddNewEventErrorResponse
   }
 }
 
