@@ -2,7 +2,7 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
 import Typography from '@material-ui/core/Typography';
-import EventsList from '../../../components/EventsList';
+import EventsList from '../../components/EventsList';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

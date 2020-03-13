@@ -7,7 +7,7 @@ import App from './App';
 
 import { SidebarNav } from './components/SidebarNav';
 
-import { EventsPage } from './pages/NewEventPage/EventsPage';
+import { EventsPage } from './pages/EventsPage';
 
 export const AppRouter: React.FC = () => {
   return (
