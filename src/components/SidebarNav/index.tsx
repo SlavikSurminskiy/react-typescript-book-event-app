@@ -12,6 +12,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 // Icons
 import Menu from '@material-ui/icons/Menu';
 import Home from '@material-ui/icons/Home';
+import EventAvailable from '@material-ui/icons/EventAvailable';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -48,7 +49,11 @@ export const SidebarNav: React.FC = () => {
         <List>
           <ListItem>
             <ListItemIcon><Home /></ListItemIcon>
-            <Link to="/" className={classes.menuLink}>Home</Link>
+            <Link to="/" onClick={toggleNav} className={classes.menuLink}>Home</Link>
+          </ListItem>
+          <ListItem>
+            <ListItemIcon><EventAvailable /></ListItemIcon>
+            <Link to="/events" onClick={toggleNav} className={classes.menuLink}>Events</Link>
           </ListItem>
         </List>
       </Drawer >

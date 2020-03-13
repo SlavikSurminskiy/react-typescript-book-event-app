@@ -13,7 +13,7 @@ export type EventType = {
   title: string
   notes: string
   dates: EventDatesType
-  eventId?: string
+  _id?: string
 }
 
 export type EventDatesType = Date[]

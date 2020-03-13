@@ -7,12 +7,15 @@ import App from './App';
 
 import { SidebarNav } from './components/SidebarNav';
 
+import { EventsPage } from './pages/NewEventPage/EventsPage';
+
 export const AppRouter: React.FC = () => {
   return (
     <Router>
       <Container>
         <SidebarNav></SidebarNav>
         <Route exact path="/" component={App} />
+        <Route path="/events" component={EventsPage} />
       </Container>
     </Router>
   )

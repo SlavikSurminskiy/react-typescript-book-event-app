@@ -3,9 +3,11 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import { newEventReducer } from './newEvent/reducer';
+import { loadEventsReducer } from "./events/reducer";
 
 const rootReducer = combineReducers({
-  newEvent: newEventReducer
+  newEvent: newEventReducer,
+  events: loadEventsReducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
