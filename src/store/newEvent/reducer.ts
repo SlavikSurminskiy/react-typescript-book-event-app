@@ -46,7 +46,7 @@ export function newEventReducer(state = initialState, action: NewEventActions): 
     case ADD_NEW_EVENT_DATES:
       return {
         ...state,
-        dates: action.payload.dates,
+        dates: action.payload.dates.sort((a, b) => a.getTime() - b.getTime()),
         isSaved: false,
         statusText: null,
       }
