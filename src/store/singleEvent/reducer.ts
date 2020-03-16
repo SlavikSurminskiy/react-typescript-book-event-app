@@ -4,9 +4,10 @@ import {
   LOAD_SINGLE_EVENT_BEGIN,
   LOAD_SINGLE_EVENT_SUCCESS,
   LOAD_SINGLE_EVENT_FAILURE,
+  SAVE_PARTICIPANT_SUCCESS,
   SingleEventType,
   ParticipantType,
-  LoadSingleEventErrorResponse,
+  EventErrorResponse,
   SingleEventActions,
 } from './types';
 
@@ -15,7 +16,7 @@ type InitialStateType = SingleEventType & {
   newParticipant: ParticipantType
   isLoading: boolean
   isSaved: boolean
-  error?: LoadSingleEventErrorResponse
+  error?: EventErrorResponse
 }
 
 const initialState: InitialStateType = {
@@ -81,6 +82,11 @@ export function singleEventReducer(state = initialState, action: SingleEventActi
         isSaved: false,
         isLoading: false,
         error: action.payload.error,
+      }
+    case SAVE_PARTICIPANT_SUCCESS:
+      return {
+        ...state,
+        participants: [...state.participants, action.payload.participant]
       }
     default:
       return state

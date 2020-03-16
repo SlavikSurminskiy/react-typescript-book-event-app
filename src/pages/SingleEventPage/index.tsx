@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { RootState } from '../../store';
-import { loadSingleEvent } from '../../store/singleEvent/actions';
+import { loadSingleEvent, saveParticipant } from '../../store/singleEvent/actions';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -43,6 +43,7 @@ const mapStateToProps = (state: RootState) => {
 const mapDispatchToProps = (dispatch: any) => {
   return {
     loadSingleEvent: (id: string) => dispatch(loadSingleEvent(id)),
+    saveParticipant: () => dispatch(saveParticipant()),
   }
 }
 
@@ -57,6 +58,10 @@ const SingleEventPage: React.FC<PropsFromRedux & OwnProps> = (props) => {
     props.loadSingleEvent(props.match.params.id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const saveBtnHundler = () => {
+    props.saveParticipant();
+  }
 
   return (
     <>
@@ -73,6 +78,7 @@ const SingleEventPage: React.FC<PropsFromRedux & OwnProps> = (props) => {
             color="primary"
             size="large"
             startIcon={<SaveIcon />}
+            onClick={saveBtnHundler}
           >
             Save
             </Button>

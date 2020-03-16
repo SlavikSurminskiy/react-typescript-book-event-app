@@ -9,6 +9,9 @@ export const LOAD_SINGLE_EVENT_BEGIN = 'LOAD_SINGLE_EVENT_BEGIN'
 export const LOAD_SINGLE_EVENT_SUCCESS = 'LOAD_SINGLE_EVENT_SUCCESS'
 export const LOAD_SINGLE_EVENT_FAILURE = 'LOAD_SINGLE_EVENT_FAILURE'
 
+export const SAVE_PARTICIPANT_BEGIN = 'SAVE_PARTICIPANT_BEGIN'
+export const SAVE_PARTICIPANT_SUCCESS = 'SAVE_PARTICIPANT_SUCCESS'
+export const SAVE_PARTICIPANT_FAILURE = 'SAVE_PARTICIPANT_FAILURE'
 
 export type SingleEventType = EventType & {
   participantsCount: number[]
@@ -46,7 +49,7 @@ export interface LoadSingleEventSuccessAction extends Action {
   }
 }
 
-export type LoadSingleEventErrorResponse = {
+export type EventErrorResponse = {
   statusText: string
   statusCode: number
 }
@@ -54,7 +57,25 @@ export type LoadSingleEventErrorResponse = {
 export interface LoadSingleEventFailureAction extends Action {
   type: typeof LOAD_SINGLE_EVENT_FAILURE
   payload: {
-    error: LoadSingleEventErrorResponse
+    error: EventErrorResponse
+  }
+}
+
+export interface SaveParticipantBeginAction extends Action {
+  type: typeof SAVE_PARTICIPANT_BEGIN
+}
+
+export interface SaveParticipantSuccessAction extends Action {
+  type: typeof SAVE_PARTICIPANT_SUCCESS
+  payload: {
+    participant: ParticipantType
+  }
+}
+
+export interface SaveParticipantFailureAction extends Action {
+  type: typeof SAVE_PARTICIPANT_FAILURE
+  payload: {
+    error: EventErrorResponse
   }
 }
 
@@ -63,4 +84,7 @@ export type SingleEventActions =
   CheckNewDayAction |
   LoadSingleEventBeginAction |
   LoadSingleEventSuccessAction |
-  LoadSingleEventFailureAction
+  LoadSingleEventFailureAction |
+  SaveParticipantBeginAction |
+  SaveParticipantSuccessAction |
+  SaveParticipantFailureAction

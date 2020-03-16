@@ -4,8 +4,12 @@ import {
   LOAD_SINGLE_EVENT_BEGIN,
   LOAD_SINGLE_EVENT_SUCCESS,
   LOAD_SINGLE_EVENT_FAILURE,
+  SAVE_PARTICIPANT_BEGIN,
+  SAVE_PARTICIPANT_SUCCESS,
+  SAVE_PARTICIPANT_FAILURE,
   SingleEventType,
-  LoadSingleEventErrorResponse,
+  ParticipantType,
+  EventErrorResponse,
   SingleEventActions,
 } from './types';
 
@@ -47,7 +51,7 @@ function loadSingleEventSuccess(event: SingleEventType): SingleEventActions {
   }
 }
 
-function loadSingleEventFailure(error: LoadSingleEventErrorResponse): SingleEventActions {
+function loadSingleEventFailure(error: EventErrorResponse): SingleEventActions {
   return {
     type: LOAD_SINGLE_EVENT_FAILURE,
     payload: {
@@ -75,6 +79,57 @@ export function loadSingleEvent(id: string): ThunkAction<void, RootState, unknow
       })
       .catch((err: AxiosError) => {
         dispatch(loadSingleEventFailure({
+          statusText: err.response!.statusText,
+          statusCode: err.response!.status,
+        }));
+      })
+  }
+}
+
+function saveParticipantBegin(): SingleEventActions {
+  return {
+    type: SAVE_PARTICIPANT_BEGIN
+  }
+}
+
+function saveParticipantSuccess(participant: ParticipantType): SingleEventActions {
+  return {
+    type: SAVE_PARTICIPANT_SUCCESS,
+    payload: {
+      participant
+    }
+  }
+}
+
+function saveParticipantFailure(error: EventErrorResponse): SingleEventActions {
+  return {
+    type: SAVE_PARTICIPANT_FAILURE,
+    payload: {
+      error
+    }
+  }
+}
+
+export function saveParticipant(): ThunkAction<void, RootState, unknown, SingleEventActions> {
+  return (dispatch, getState) => {
+    dispatch(saveParticipantBegin());
+    const { _id, newParticipant } = getState().singleEvent;
+    const { name, checkedDays } = newParticipant;
+    axios
+      .post(`/api/addParticipant/${_id}`, {
+        participant: {
+          name,
+          checkedDays,
+        }
+      })
+      .then(() => {
+        dispatch(saveParticipantSuccess({
+          name,
+          checkedDays,
+        }));
+      })
+      .catch((err: AxiosError) => {
+        dispatch(saveParticipantFailure({
           statusText: err.response!.statusText,
           statusCode: err.response!.status,
         }));
