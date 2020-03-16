@@ -6,7 +6,6 @@ import { saveNewEvent } from '../../store/newEvent/actions';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Alert from '@material-ui/lab/Alert';
 
@@ -14,6 +13,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import { EventInfo } from './../EventInfo';
 
 // Icons
 import SaveIcon from '@material-ui/icons/Save';
@@ -56,14 +57,10 @@ class NewEventCompletion extends React.Component<NewEventCompletionProps> {
     return (
       <React.Fragment>
         <Grid>
-          <Grid item xs={12} >
-            <Typography variant="h4" color='primary' component="h4" align="center">
-              {this.props.newEvent.title}
-            </Typography>
-            <Typography component="p" align="center" style={{ marginTop: '16px' }}>
-              {this.props.newEvent.notes}
-            </Typography>
-          </Grid>
+          <EventInfo
+            eventName={this.props.newEvent.title}
+            eventNotes={this.props.newEvent.notes}
+          />
         </Grid>
         <List>
           {this.props.newEvent.dates.map(d => (
