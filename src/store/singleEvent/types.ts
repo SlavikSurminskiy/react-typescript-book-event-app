@@ -13,8 +13,9 @@ export const SAVE_PARTICIPANT_BEGIN = 'SAVE_PARTICIPANT_BEGIN'
 export const SAVE_PARTICIPANT_SUCCESS = 'SAVE_PARTICIPANT_SUCCESS'
 export const SAVE_PARTICIPANT_FAILURE = 'SAVE_PARTICIPANT_FAILURE'
 
+export const CALC_PARTICIPANT_COUNT = 'CALC_PARTICIPANT_COUNT'
+
 export type SingleEventType = EventType & {
-  participantsCount: number[]
   participants: ParticipantType[]
 }
 
@@ -79,6 +80,13 @@ export interface SaveParticipantFailureAction extends Action {
   }
 }
 
+export interface CalcParticipantCoutAction extends Action {
+  type: typeof CALC_PARTICIPANT_COUNT
+  payload: {
+    participantsCount: number[]
+  }
+}
+
 export type SingleEventActions =
   AddNewParticipantNameAction |
   CheckNewDayAction |
@@ -87,4 +95,5 @@ export type SingleEventActions =
   LoadSingleEventFailureAction |
   SaveParticipantBeginAction |
   SaveParticipantSuccessAction |
-  SaveParticipantFailureAction
+  SaveParticipantFailureAction |
+  CalcParticipantCoutAction

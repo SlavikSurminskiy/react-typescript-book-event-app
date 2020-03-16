@@ -5,6 +5,7 @@ import {
   LOAD_SINGLE_EVENT_SUCCESS,
   LOAD_SINGLE_EVENT_FAILURE,
   SAVE_PARTICIPANT_SUCCESS,
+  CALC_PARTICIPANT_COUNT,
   SingleEventType,
   ParticipantType,
   EventErrorResponse,
@@ -14,6 +15,7 @@ import {
 
 type InitialStateType = SingleEventType & {
   newParticipant: ParticipantType
+  participantsCount: number[]
   isLoading: boolean
   isSaved: boolean
   error?: EventErrorResponse
@@ -68,7 +70,6 @@ export function singleEventReducer(state = initialState, action: SingleEventActi
         dates: action.payload.event.dates,
         _id: action.payload.event._id,
         participants: action.payload.event.participants,
-        participantsCount: action.payload.event.participantsCount,
         newParticipant: {
           ...state.newParticipant,
           checkedDays: new Array(datesAmount).fill(false)
@@ -87,6 +88,11 @@ export function singleEventReducer(state = initialState, action: SingleEventActi
       return {
         ...state,
         participants: [...state.participants, action.payload.participant]
+      }
+    case CALC_PARTICIPANT_COUNT:
+      return {
+        ...state,
+        participantsCount: action.payload.participantsCount,
       }
     default:
       return state

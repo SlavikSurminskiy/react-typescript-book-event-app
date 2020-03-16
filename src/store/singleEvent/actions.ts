@@ -7,6 +7,7 @@ import {
   SAVE_PARTICIPANT_BEGIN,
   SAVE_PARTICIPANT_SUCCESS,
   SAVE_PARTICIPANT_FAILURE,
+  CALC_PARTICIPANT_COUNT,
   SingleEventType,
   ParticipantType,
   EventErrorResponse,
@@ -14,6 +15,7 @@ import {
 } from './types';
 
 import axios, { AxiosError } from 'axios';
+import store from '../'
 import { RootState } from './../index';
 import { ThunkAction } from 'redux-thunk';
 
@@ -76,6 +78,7 @@ export function loadSingleEvent(id: string): ThunkAction<void, RootState, unknow
         // convert response dates from string to JS Date object
         const dates = event.dates.map((d: string) => new Date(d));
         dispatch(loadSingleEventSuccess({ ...event, dates }));
+        dispatch(calcParticipantCount());
       })
       .catch((err: AxiosError) => {
         dispatch(loadSingleEventFailure({
@@ -127,6 +130,7 @@ export function saveParticipant(): ThunkAction<void, RootState, unknown, SingleE
           name,
           checkedDays,
         }));
+        dispatch(calcParticipantCount());
       })
       .catch((err: AxiosError) => {
         dispatch(saveParticipantFailure({
@@ -134,5 +138,29 @@ export function saveParticipant(): ThunkAction<void, RootState, unknown, SingleE
           statusCode: err.response!.status,
         }));
       })
+  }
+}
+
+// calc number of checked cell in each column
+function calcParticipantCount(): SingleEventActions {
+  const { dates, participants } = store.getState().singleEvent;
+
+  const datesAmount = dates.length;
+  const participantAmount = participants.length;
+  const participantsCount = new Array(datesAmount).fill(0);
+
+  for (let i = 0; i < datesAmount; i += 1) {
+    for (let j = 0; j < participantAmount; j += 1) {
+      if (participants[j].checkedDays[i]) {
+        participantsCount[i] += 1;
+      }
+    }
+  }
+
+  return {
+    type: CALC_PARTICIPANT_COUNT,
+    payload: {
+      participantsCount,
+    }
   }
 }
