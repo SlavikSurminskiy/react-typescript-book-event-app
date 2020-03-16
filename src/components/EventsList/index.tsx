@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link } from "react-router-dom";
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState } from '../../store';
@@ -38,7 +39,7 @@ const EventsList: React.FC<PropsFromRedux> = (props) => {
     <List>
       {props.events.map(ev => {
         return (
-          <ListItem button key={ev._id}>
+          <ListItem button component={Link} to={'event/' + ev._id} key={ev._id}>
             <ListItemAvatar>
               <Avatar>
                 <Event />

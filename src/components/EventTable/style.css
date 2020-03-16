@@ -1,0 +1,18 @@
+.event-table {
+  margin: 0 auto;
+  border-collapse: collapse;
+}
+.event-table-wrapper {
+  overflow-x: auto;
+}
+.event-table__checkbox svg {
+  width: 2em;
+  height: 2em;
+}
+.event-table td {
+  border: 1px solid #ccc;
+  text-align: center;
+}
+.event-table .user-icon {
+  padding: 15px;
+}

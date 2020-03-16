@@ -1,0 +1,26 @@
+.event-table {
+  $grey: #ccc;
+
+  margin: 0 auto;
+  border-collapse: collapse;
+
+  &-wrapper {
+    overflow-x: auto;
+  }
+
+  &__checkbox {
+    svg {
+      width: 2em;
+      height: 2em;
+    }
+  }
+
+  td {
+    border: 1px solid $grey;
+    text-align: center;
+  }
+  
+  .user-icon {
+    padding: 15px;
+  }
+}

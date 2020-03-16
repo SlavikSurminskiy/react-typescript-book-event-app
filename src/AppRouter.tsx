@@ -8,6 +8,7 @@ import App from './App';
 import { SidebarNav } from './components/SidebarNav';
 
 import { EventsPage } from './pages/EventsPage';
+import SingleEventPage from './pages/SingleEventPage';
 
 export const AppRouter: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ export const AppRouter: React.FC = () => {
         <SidebarNav></SidebarNav>
         <Route exact path="/" component={App} />
         <Route path="/events" component={EventsPage} />
+        <Route path="/event/:id" component={SingleEventPage} />
       </Container>
     </Router>
   )
