@@ -11,143 +11,84 @@ import {
   SingleEventType,
   ParticipantType,
   EventErrorResponse,
-  SingleEventActions,
 } from './types';
 
-import axios, { AxiosError } from 'axios';
 import store from '../'
-import { RootState } from './../index';
-import { ThunkAction } from 'redux-thunk';
 
-export function addNewParticipantName(name: string): SingleEventActions {
+export function addNewParticipantName(name: string) {
   return {
     type: ADD_NEW_PARTICIPANT_NAME,
     payload: {
       name
     }
-  }
+  } as const
 }
 
-export function checkNewDay(dayIndex: number, isChecked: boolean): SingleEventActions {
+export function checkNewDay(dayIndex: number, isChecked: boolean) {
   return {
     type: CHECK_NEW_DAY,
     payload: {
       dayIndex,
       isChecked,
     }
-  }
+  } as const
 }
 
-function loadSingleEventBegin(): SingleEventActions {
+export function loadSingleEventBegin() {
   return {
     type: LOAD_SINGLE_EVENT_BEGIN
-  }
+  } as const
 }
 
-function loadSingleEventSuccess(event: SingleEventType): SingleEventActions {
+export function loadSingleEventSuccess(event: SingleEventType) {
   return {
     type: LOAD_SINGLE_EVENT_SUCCESS,
     payload: {
       event
     }
-  }
+  } as const
 }
 
-function loadSingleEventFailure(error: EventErrorResponse): SingleEventActions {
+export function loadSingleEventFailure(error: EventErrorResponse) {
   return {
     type: LOAD_SINGLE_EVENT_FAILURE,
     payload: {
       error
     }
-  }
+  } as const
 }
 
-// need change type of dates from type Date[] to string[]
-// because dates come back from server as array of strings
-type loadSingleEventResponse = {
-  event: Omit<SingleEventType, 'dates'> & { dates: string[] }
-}
-
-export function loadSingleEvent(id: string): ThunkAction<void, RootState, unknown, SingleEventActions> {
-  return (dispatch) => {
-    dispatch(loadSingleEventBegin());
-    axios
-      .get<loadSingleEventResponse>('/api/event/' + id)
-      .then(res => {
-        const { event } = res.data;
-        // convert response dates from string to JS Date object
-        const dates = event.dates.map((d: string) => new Date(d));
-        dispatch(loadSingleEventSuccess({ ...event, dates }));
-        dispatch(calcParticipantCount());
-      })
-      .catch((err: AxiosError) => {
-        dispatch(loadSingleEventFailure({
-          statusText: err.response!.statusText,
-          statusCode: err.response!.status,
-        }));
-      })
-  }
-}
-
-function saveParticipantBegin(): SingleEventActions {
+export function saveParticipantBegin() {
   return {
     type: SAVE_PARTICIPANT_BEGIN
-  }
+  } as const
 }
 
-function saveParticipantSuccess(participant: ParticipantType): SingleEventActions {
+export function saveParticipantSuccess(participant: ParticipantType) {
   return {
     type: SAVE_PARTICIPANT_SUCCESS,
     payload: {
       participant
     }
-  }
+  } as const
 }
 
-function saveParticipantFailure(error: EventErrorResponse): SingleEventActions {
+export function saveParticipantFailure(error: EventErrorResponse) {
   return {
     type: SAVE_PARTICIPANT_FAILURE,
     payload: {
       error
     }
-  }
-}
-
-export function saveParticipant(): ThunkAction<void, RootState, unknown, SingleEventActions> {
-  return (dispatch, getState) => {
-    dispatch(saveParticipantBegin());
-    const { _id, newParticipant } = getState().singleEvent;
-    const { name, checkedDays } = newParticipant;
-    axios
-      .post(`/api/addParticipant/${_id}`, {
-        participant: {
-          name,
-          checkedDays,
-        }
-      })
-      .then(() => {
-        dispatch(saveParticipantSuccess({
-          name,
-          checkedDays,
-        }));
-        dispatch(calcParticipantCount());
-      })
-      .catch((err: AxiosError) => {
-        dispatch(saveParticipantFailure({
-          statusText: err.response!.statusText,
-          statusCode: err.response!.status,
-        }));
-      })
-  }
+  } as const
 }
 
 // calc number of checked cell in each column
-function calcParticipantCount(): SingleEventActions {
+export function calcParticipantCount() {
   const { dates, participants } = store.getState().singleEvent;
 
   const datesAmount = dates.length;
   const participantAmount = participants.length;
-  const participantsCount = new Array(datesAmount).fill(0);
+  const participantsCount: number[] = new Array(datesAmount).fill(0);
 
   for (let i = 0; i < datesAmount; i += 1) {
     for (let j = 0; j < participantAmount; j += 1) {
@@ -162,5 +103,5 @@ function calcParticipantCount(): SingleEventActions {
     payload: {
       participantsCount,
     }
-  }
+  } as const
 }

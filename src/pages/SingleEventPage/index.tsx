@@ -3,7 +3,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RouteComponentProps } from 'react-router';
 
 import { RootState } from '../../store';
-import { loadSingleEvent, saveParticipant } from '../../store/singleEvent/actions';
+import { loadSingleEvent, saveParticipant } from '../../store/singleEvent/async-actions';
 
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 
@@ -59,32 +59,30 @@ const SingleEventPage: React.FC<PropsFromRedux & OwnProps> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const saveBtnHundler = () => {
+  const saveBtnHandler = () => {
     props.saveParticipant();
   }
 
   return (
-    <>
-      <Grid>
-        <EventInfo
-          eventName={props.singleEventTitle}
-          eventNotes={props.singleEventNotes}
-        />
-        <EventTable />
-        <Grid container justify="center">
-          <Button
-            className={classes.margin}
-            variant="contained"
-            color="primary"
-            size="large"
-            startIcon={<SaveIcon />}
-            onClick={saveBtnHundler}
-          >
-            Save
-            </Button>
-        </Grid>
+    <Grid>
+      <EventInfo
+        eventName={props.singleEventTitle}
+        eventNotes={props.singleEventNotes}
+      />
+      <EventTable />
+      <Grid container justify="center">
+        <Button
+          className={classes.margin}
+          variant="contained"
+          color="primary"
+          size="large"
+          startIcon={<SaveIcon />}
+          onClick={saveBtnHandler}
+        >
+          Save
+          </Button>
       </Grid>
-    </>
+    </Grid>
   )
 }
 
