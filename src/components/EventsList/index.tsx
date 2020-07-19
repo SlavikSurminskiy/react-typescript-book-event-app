@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState } from '../../store';
-import { loadEvents } from '../../store/events/actions';
+import { loadEvents } from '../../store/events/async-actions';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
