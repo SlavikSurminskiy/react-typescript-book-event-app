@@ -2,7 +2,7 @@ import React from 'react';
 import { connect, ConnectedProps } from 'react-redux';
 
 import { RootState } from '../../store';
-import { saveNewEvent } from '../../store/newEvent/actions';
+import { saveNewEvent } from '../../store/newEvent/async-actions';
 
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';

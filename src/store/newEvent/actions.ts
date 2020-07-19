@@ -6,89 +6,57 @@ import {
   SAVE_NEW_EVENT_SUCCESS,
   SAVE_NEW_EVENT_FAILURE,
   EventDatesType,
-  NewEventActions,
   AddNewEventResponse,
   AddNewEventErrorResponse,
 } from './types';
 
-import axios, { AxiosError } from 'axios';
-import { RootState } from './../index';
-import { ThunkAction } from 'redux-thunk';
-
-export function addNewEventTitle(title: string): NewEventActions {
+export function addNewEventTitle(title: string) {
   return {
     type: ADD_NEW_EVENT_TITLE,
     payload: {
       title
     }
-  }
+  } as const
 }
 
-export function addNewEventNotes(notes: string): NewEventActions {
+export function addNewEventNotes(notes: string) {
   return {
     type: ADD_NEW_EVENT_NOTES,
     payload: {
       notes
     }
-  }
+  } as const
 }
 
-export function addNewEventDates(dates: EventDatesType): NewEventActions {
+export function addNewEventDates(dates: EventDatesType) {
   return {
     type: ADD_NEW_EVENT_DATES,
     payload: {
       dates
     }
-  }
+  } as const
 }
 
-function saveNewEventBegin(): NewEventActions {
+export function saveNewEventBegin() {
   return {
     type: SAVE_NEW_EVENT_BEGIN,
-  }
+  } as const
 }
 
-function saveNewEventSuccess(status: AddNewEventResponse): NewEventActions {
+export function saveNewEventSuccess(status: AddNewEventResponse) {
   return {
     type: SAVE_NEW_EVENT_SUCCESS,
     payload: {
       status
     }
-  }
+  } as const
 }
 
-function saveNewEventFailure(error: AddNewEventErrorResponse): NewEventActions {
+export function saveNewEventFailure(error: AddNewEventErrorResponse) {
   return {
     type: SAVE_NEW_EVENT_FAILURE,
     payload: {
       error
     }
-  }
-}
-
-export function saveNewEvent(): ThunkAction<void, RootState, unknown, NewEventActions> {
-  return (dispatch, getState) => {
-    dispatch(saveNewEventBegin());
-    const eventPostData = getState().newEvent;
-    axios
-      .post<AddNewEventResponse>('/api/createEvent', {
-        newEvent: {
-          title: eventPostData.title,
-          notes: eventPostData.notes,
-          dates: eventPostData.dates,
-        }
-      })
-      .then(res => {
-        dispatch(saveNewEventSuccess({
-          _id: res.data._id,
-          statusText: 'Event was saved',
-        }));
-      })
-      .catch((err: AxiosError) => {
-        dispatch(saveNewEventFailure({
-          statusText: err.response!.statusText,
-          statusCode: err.response!.status,
-        }));
-      })
-  }
+  } as const
 }

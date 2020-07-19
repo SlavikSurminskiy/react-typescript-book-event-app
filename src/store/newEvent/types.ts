@@ -1,12 +1,7 @@
-import { Action } from 'redux'
+import * as actions from './actions';
 
-export const ADD_NEW_EVENT_TITLE = 'ADD_NEW_EVENT_TITLE'
-export const ADD_NEW_EVENT_NOTES = 'ADD_NEW_EVENT_NOTES'
-export const ADD_NEW_EVENT_DATES = 'ADD_NEW_EVENT_DATES'
-
-export const SAVE_NEW_EVENT_BEGIN = 'SAVE_NEW_EVENT_BEGIN'
-export const SAVE_NEW_EVENT_SUCCESS = 'SAVE_NEW_EVENT_SUCCESS'
-export const SAVE_NEW_EVENT_FAILURE = 'SAVE_NEW_EVENT_FAILURE'
+type InferValueTypes<T> = T extends { [key: string]: infer U } ? U : never;
+export type NewEventActions = ReturnType<InferValueTypes<typeof actions>>
 
 
 export type EventType = {
@@ -28,49 +23,10 @@ export type AddNewEventErrorResponse = {
   statusCode: number
 }
 
-export interface AddNewEventTitleAction extends Action {
-  type: typeof ADD_NEW_EVENT_TITLE
-  payload: {
-    title: string
-  }
-}
+export const ADD_NEW_EVENT_TITLE = 'ADD_NEW_EVENT_TITLE'
+export const ADD_NEW_EVENT_NOTES = 'ADD_NEW_EVENT_NOTES'
+export const ADD_NEW_EVENT_DATES = 'ADD_NEW_EVENT_DATES'
 
-export interface AddNewEventNotesAction extends Action {
-  type: typeof ADD_NEW_EVENT_NOTES
-  payload: {
-    notes: string
-  }
-}
-
-export interface AddNewEventDatesAction extends Action {
-  type: typeof ADD_NEW_EVENT_DATES
-  payload: {
-    dates: EventDatesType
-  }
-}
-
-export interface SaveNewEventBeginAction extends Action {
-  type: typeof SAVE_NEW_EVENT_BEGIN
-}
-
-export interface SaveNewEventSuccessAction extends Action {
-  type: typeof SAVE_NEW_EVENT_SUCCESS
-  payload: {
-    status: AddNewEventResponse
-  }
-}
-
-export interface SaveNewEventFailureAction extends Action {
-  type: typeof SAVE_NEW_EVENT_FAILURE
-  payload: {
-    error: AddNewEventErrorResponse
-  }
-}
-
-export type NewEventActions =
-  AddNewEventTitleAction |
-  AddNewEventNotesAction |
-  AddNewEventDatesAction |
-  SaveNewEventBeginAction |
-  SaveNewEventSuccessAction |
-  SaveNewEventFailureAction
+export const SAVE_NEW_EVENT_BEGIN = 'SAVE_NEW_EVENT_BEGIN'
+export const SAVE_NEW_EVENT_SUCCESS = 'SAVE_NEW_EVENT_SUCCESS'
+export const SAVE_NEW_EVENT_FAILURE = 'SAVE_NEW_EVENT_FAILURE'
